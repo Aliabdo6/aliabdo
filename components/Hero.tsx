@@ -127,7 +127,7 @@ export default function Hero() {
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="#" className="px-8 py-4 border border-slate-300 dark:border-slate-700 font-sans font-medium rounded-full hover:bg-slate-100 dark:hover:bg-[#1A2233] transition-colors relative z-10 glass-panel hover:border-[#7C3AED] group">
+              <a href="/Aliabdo-CV.pdf" download className="px-8 py-4 border border-slate-300 dark:border-slate-700 font-sans font-medium rounded-full hover:bg-slate-100 dark:hover:bg-[#1A2233] transition-colors relative z-10 glass-panel hover:border-[#7C3AED] group">
                 <span className="group-hover:text-gradient transition-all">Download CV</span>
               </a>
             </Magnetic>
