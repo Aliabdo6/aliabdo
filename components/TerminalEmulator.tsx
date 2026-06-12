@@ -25,6 +25,9 @@ export default function TerminalEmulator() {
     }
   }, [history]);
 
+  const historyRef = useRef(history);
+  useEffect(() => { historyRef.current = history; }, [history]);
+
   const handleCommand = (cmd: string) => {
     const trimmed = cmd.trim();
     if (!trimmed) return;
@@ -32,7 +35,7 @@ export default function TerminalEmulator() {
     setCommandHistory(prev => [...prev, trimmed]);
     setHistoryIndex(-1);
 
-    const newHistory: CommandItem[] = [...history, { id: Date.now().toString() + 'in', type: 'input', content: trimmed }];
+    const newHistory: CommandItem[] = [...historyRef.current, { id: Date.now().toString() + 'in', type: 'input', content: trimmed }];
     let output: ReactNode = '';
 
     const args = trimmed.split(' ');
@@ -152,8 +155,8 @@ export default function TerminalEmulator() {
       }
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      const commands = ['help', 'whoami', 'skills', 'projects', 'contact', 'github', 'hire', 'matrix', 'clear', 'date', 'echo'];
-      const match = commands.find(c => c.startsWith(inputVal.toLowerCase()));
+      const tabCommands = ['help', 'whoami', 'skills', 'projects', 'contact', 'github', 'hire', 'matrix', 'clear', 'date', 'echo'];
+      const match = tabCommands.find(c => c.startsWith(inputVal.toLowerCase()));
       if (match) setInputVal(match);
     }
   };

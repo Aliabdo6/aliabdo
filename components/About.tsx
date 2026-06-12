@@ -13,19 +13,19 @@ const AnimatedCounter = ({ end, suffix = '', title }: { end: number, suffix?: st
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       onViewportEnter={() => {
-        let start = 0;
         const duration = 2000;
         const startTime = performance.now();
+        let raf: number;
         
         const update = (currentTime: number) => {
           const elapsed = currentTime - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          // Ease out expo
           const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
           setCount(Math.floor(easeProgress * end));
-          if (progress < 1) requestAnimationFrame(update);
+          if (progress < 1) raf = requestAnimationFrame(update);
         };
-        requestAnimationFrame(update);
+        raf = requestAnimationFrame(update);
+        return () => cancelAnimationFrame(raf);
       }}
       className="flex flex-col"
     >

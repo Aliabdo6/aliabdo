@@ -16,17 +16,17 @@ export default function Contact() {
     setStatus('submitting');
     
     emailjs.sendForm(
-      'service_vip83mq', 
-      'template_5wrs3jj', 
-      formRef.current, 
-      'rhJyoFefmwDCbaMNh'
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+      formRef.current,
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
     )
-    .then((result) => {
+    .then(() => {
         setStatus('success');
-        setTimeout(() => setStatus('idle'), 3000);
         formRef.current?.reset();
-    }, (error) => {
-        console.error(error.text);
+        setTimeout(() => setStatus('idle'), 3000);
+    }, (error: { text?: string }) => {
+        console.error(error?.text ?? 'EmailJS error');
         setStatus('error');
         setTimeout(() => setStatus('idle'), 3000);
     });

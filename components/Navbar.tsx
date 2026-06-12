@@ -53,7 +53,7 @@ export default function Navbar() {
               <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300 hover:text-[#00FFD1] transition-colors" aria-label="Toggle Theme">
                 <SunMoon className="w-5 h-5" />
               </button>
-              <a href="https://github.com/Aliabdo6" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-300 hover:text-[#00FFD1] transition-colors">
+              <a href="https://github.com/Aliabdo6" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-300 hover:text-[#00FFD1] transition-colors" aria-label="GitHub Profile">
                 <Github className="w-5 h-5" />
               </a>
             </div>
@@ -64,7 +64,7 @@ export default function Navbar() {
             <button onClick={toggleTheme} className="text-slate-600 dark:text-slate-300">
               <SunMoon className="w-5 h-5" />
             </button>
-            <button onClick={() => setMobileMenu(!mobileMenu)} className="text-slate-600 dark:text-slate-300">
+            <button onClick={() => setMobileMenu(!mobileMenu)} className="text-slate-600 dark:text-slate-300" aria-label="Toggle mobile menu" aria-expanded={mobileMenu} aria-controls="mobile-menu">
               {mobileMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
@@ -72,7 +72,7 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`fixed inset-0 z-30 bg-[#080B10]/95 backdrop-blur-xl transition-transform duration-300 ${mobileMenu ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'}`}>
+      <div id="mobile-menu" className={`fixed inset-0 z-30 bg-[#080B10]/95 backdrop-blur-xl transition-transform duration-300 ${mobileMenu ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'}`} aria-hidden={!mobileMenu}>
         <div className="flex flex-col items-center justify-center h-full gap-8 text-xl font-space pt-20">
           {links.map((l) => (
             <a key={l.name} href={l.href} onClick={() => setMobileMenu(false)} className="text-slate-200 hover:text-[#00FFD1]">

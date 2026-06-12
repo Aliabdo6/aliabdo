@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { Globe2, Code, Zap } from 'lucide-react';
 
 export default function GlobeSection() {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]

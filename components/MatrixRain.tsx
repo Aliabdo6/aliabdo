@@ -13,14 +13,17 @@ export default function MatrixRain({ active, onClose }: { active: boolean; onClo
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
 
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%""\'#&_(),.;:?!\\|{}<>[]^~'.split('');
     const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops: number[] = [];
-    for (let x = 0; x < columns; x++) drops[x] = 1;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops: number[] = Array(columns).fill(1);
 
     let animFrame: number;
 
@@ -52,6 +55,7 @@ export default function MatrixRain({ active, onClose }: { active: boolean; onClo
     return () => {
       cancelAnimationFrame(animFrame);
       clearTimeout(timer);
+      window.removeEventListener('resize', resize);
     };
   }, [active, onClose]);
 

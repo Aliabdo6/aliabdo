@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import CommandPalette from './CommandPalette';
 import MatrixRain from './MatrixRain';
@@ -9,6 +9,12 @@ export default function ShortcutsGlobal() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [matrixActive, setMatrixActive] = useState(false);
+
+  // Use refs to avoid stale closures in the keydown handler
+  const paletteOpenRef = useRef(paletteOpen);
+  const modalOpenRef = useRef(modalOpen);
+  useEffect(() => { paletteOpenRef.current = paletteOpen; }, [paletteOpen]);
+  useEffect(() => { modalOpenRef.current = modalOpen; }, [modalOpen]);
 
   useEffect(() => {
     let keyBuffer: string[] = [];
@@ -31,19 +37,28 @@ export default function ShortcutsGlobal() {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setPaletteOpen(true);
+        return;
       }
       if (e.key === '/') {
         e.preventDefault();
         setPaletteOpen(true);
+        return;
       }
 
       // Shortcuts Modal
       if (e.key === '?') {
         setModalOpen(true);
+        return;
       }
 
-      // Single character commands (if modal.palette not open)
-      if (!paletteOpen && !modalOpen) {
+      // Escape closes modal
+      if (e.key === 'Escape') {
+        setModalOpen(false);
+        return;
+      }
+
+      // Single character commands (if palette/modal not open)
+      if (!paletteOpenRef.current && !modalOpenRef.current) {
         if (e.key.toLowerCase() === 't') {
           document.documentElement.classList.toggle('dark');
         }
@@ -64,7 +79,7 @@ export default function ShortcutsGlobal() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [paletteOpen, modalOpen]);
+  }, []);
 
   return (
     <>
